@@ -1,0 +1,401 @@
+/* ─────────────────────────────────────────
+   MenuDetail.css — Le Festin Épicurien
+   Détail + modification d'un menu
+   Palette: crème, bordeaux, or, charbon
+───────────────────────────────────────── */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500&display=swap');
+
+:root {
+  --cream:      #F5F0E8;
+  --warm:       #FAF7F2;
+  --gold:       #C8A96A;
+  --gold-lt:    #DFC49A;
+  --gold-dk:    #9A7A3E;
+  --bordeaux:   #6B1F2A;
+  --bord-lt:    #8B3040;
+  --charcoal:   #2A2520;
+  --grey:       #8A8078;
+  --grey-lt:    #C4BDB4;
+  --line:       rgba(200, 169, 106, 0.28);
+  --line-dark:  rgba(200, 169, 106, 0.15);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ══════════════════════════════════════════
+   PAGE
+══════════════════════════════════════════ */
+
+.menu-detail-page {
+  min-height: 100vh;
+  background: var(--charcoal);
+  padding: 2.5rem 2rem 6rem;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+}
+
+/* filigrane décoratif */
+.menu-detail-page::before {
+  content: 'Menu';
+  position: fixed;
+  top: 50%;
+  right: 5rem;
+  transform: translateY(-50%);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(6rem, 20vw, 13rem);
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(200, 169, 106, 0.04);
+  user-select: none;
+  pointer-events: none;
+  white-space: nowrap;
+  line-height: 1;
+  z-index: 0;
+}
+
+/* ligne verticale dorée */
+.menu-detail-page::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 4.5rem;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--gold) 20%,
+    var(--gold) 80%,
+    transparent 100%
+  );
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+/* ══════════════════════════════════════════
+   #carteMenu — grille 2 colonnes
+══════════════════════════════════════════ */
+#carteMenu {
+  max-width: 1500px;
+  margin: 0 auto;
+  margin-top: 8rem;
+  display: grid;
+  grid-template-columns: 1.2fr 1.8fr;
+  gap: 0;
+  border: 1px solid rgba(200, 169, 106, 0.18);
+  position: relative;
+  z-index: 1;
+}
+
+/* ══════════════════════════════════════════
+   #desc — fiche descriptive (colonne gauche)
+══════════════════════════════════════════ */
+#desc {
+  background: rgba(250, 247, 242, 0.04);
+  border-right: 1px solid rgba(200, 169, 106, 0.18);
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+#desc h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.8rem; /* Plus imposant */
+  margin-bottom: 3rem;
+  font-weight: 300;
+  color: var(--cream);
+  letter-spacing: 0.03em;
+  line-height: 1.05;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+/* eyebrow au-dessus du titre */
+#desc h1::before {
+  content: 'Détail';
+  font-family: 'Jost', sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* trait doré sous le titre */
+#desc h1::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, rgba(200, 169, 106, 0.3), transparent);
+}
+
+/* lignes de données */
+#desc p {
+  font-size: 1.1rem;
+  color: rgba(245, 240, 232, 0.5);
+  padding: 1.4rem 0;
+  border-bottom: 1px solid rgba(200, 169, 106, 0.1);
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+#desc p:last-child { border-bottom: none; font-size: 1.2rem;}
+
+/* labels auto via nth-child */
+#desc p::before {
+  font-family: 'Jost', sans-serif;
+  font-size: 1.5rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold-dk);
+  min-width: 100px;
+  flex-shrink: 0;
+}
+#desc p:nth-child(2)::before { content: 'Nom'; }
+#desc p:nth-child(3)::before { content: 'Entrée'; }
+#desc p:nth-child(4)::before { content: 'Plat'; }
+#desc p:nth-child(5)::before { content: 'Dessert'; }
+#desc p:nth-child(6)::before { content: 'Prix'; }
+#desc p:nth-child(7)::before { content: 'Carte'; }
+
+/* prix mis en valeur en bordeaux */
+#desc p:nth-child(6) {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.55rem;
+  color:#a32b2b ;
+}
+
+/* ══════════════════════════════════════════
+   #formulaire — colonne droite
+══════════════════════════════════════════ */
+#formulaire {
+  background: var(--warm);
+  padding: 2.5rem;
+}
+
+#formulaire h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  font-weight: 300;
+  color: var(--charcoal);
+  letter-spacing: 0.03em;
+  margin-bottom: 1.75rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+#formulaire h2::before {
+  content: '';
+  display: block;
+  width: 18px;
+  height: 1px;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+#formulaire h2::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, rgba(200, 169, 106, 0.3), transparent);
+}
+
+/* ══════════════════════════════════════════
+   Groupes de champs (partagés avec MenuForm)
+══════════════════════════════════════════ */
+.menu-form-group {
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(200, 169, 106, 0.12);
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  align-items: center;
+  gap: 1rem;
+  transition: background 0.25s;
+
+}
+.menu-form-group:last-of-type { border-bottom: none; }
+.menu-form-group:hover { background: rgba(200, 169, 106, 0.02); }
+
+.menu-form-group--checkbox {
+  grid-template-columns: 1fr auto 1.6fr;
+}
+
+.menu-form-group label {
+  font-size: 1rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--grey);
+  font-family: 'Jost', sans-serif;
+  font-weight: 400;
+}
+
+/* inputs texte & number */
+.menu-form-group input[type="text"],
+.menu-form-group input[type="number"] {
+  width: 100%;
+  padding: 0.6rem 0.9rem;
+  background: var(--cream);
+  border: 1px solid var(--line);
+  color: var(--charcoal);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  outline: none;
+  border-radius: 0;
+  -webkit-appearance: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.menu-form-group input[type="text"]::placeholder,
+.menu-form-group input[type="number"]::placeholder {
+  color: var(--grey-lt);
+  font-style: italic;
+}
+.menu-form-group input[type="text"]:focus,
+.menu-form-group input[type="number"]:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(200, 169, 106, 0.1);
+}
+
+/* checkbox */
+.menu-form-checkbox-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.menu-form-group input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--line);
+  background: var(--cream);
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  position: relative;
+  border-radius: 0;
+  flex-shrink: 0;
+  transition: background 0.25s, border-color 0.25s;
+}
+.menu-form-group input[type="checkbox"]:checked {
+  background: var(--bordeaux);
+  border-color: var(--bordeaux);
+}
+.menu-form-group input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 5px;
+  width: 4px;
+  height: 7px;
+  border: 1.5px solid var(--cream);
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+.menu-form-group input[type="checkbox"]:focus {
+  box-shadow: 0 0 0 3px rgba(200, 169, 106, 0.15);
+  outline: none;
+}
+
+.menu-form-carte-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  font-style: italic;
+  color: var(--grey);
+}
+
+/* ── boutons ── */
+.form-footer {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.btn-annuler {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 0.7rem 1.4rem;
+  background: transparent;
+  border: 1px solid rgba(200, 169, 106, 0.25);
+  color: var(--grey);
+  cursor: pointer;
+  transition: border-color 0.3s, color 0.3s;
+}
+.btn-annuler:hover { border-color: var(--gold); color: var(--gold-dk); }
+
+.btn-enregistrer {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 0.75rem 2rem;
+  background: var(--bordeaux);
+  border: 1px solid var(--bordeaux);
+  color: var(--cream);
+  cursor: pointer;
+  transition: background 0.3s, border-color 0.3s;
+}
+.btn-enregistrer:hover { background: var(--bord-lt); border-color: var(--bord-lt); }
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+
+/* tablette : colonnes égales */
+@media (max-width: 900px) {
+  #carteMenu {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* mobile : une seule colonne, formulaire en dessous */
+@media (max-width: 650px) {
+  .menu-detail-page {
+    padding: 2rem 1rem 4rem;
+  }
+  .menu-detail-page::after {
+    display: none;
+  }
+
+  #carteMenu {
+    grid-template-columns: 1fr;
+  }
+
+  #desc {
+    border-right: none;
+    border-bottom: 1px solid rgba(200, 169, 106, 0.18);
+    padding: 2rem 1.5rem;
+  }
+
+  #formulaire {
+    padding: 2rem 1.5rem;
+  }
+
+  .menu-form-group {
+    grid-template-columns: 1fr;
+    gap: 0.4rem;
+  }
+  .menu-form-group--checkbox {
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+  }
+  .menu-form-group--checkbox label {
+    grid-column: 1 / -1;
+  }
+
+  .form-footer {
+    flex-direction: column-reverse;
+  }
+  .btn-annuler,
+  .btn-enregistrer {
+    width: 100%;
+    text-align: center;
+  }
+}

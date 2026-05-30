@@ -1,0 +1,201 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap');
+
+/* ─── VARIABLES ─── */
+:root {
+  --cream:    #F5F0E8;
+  --warm:     #FAF7F2;
+  --gold:     #C8A96A;
+  --gold-lt:  #DFC49A;
+  --bordeaux: #6B1F2A;
+  --bord-lt:  #8B3040;
+  --charcoal: #2A2520;
+  --grey:     #8A8078;
+  --grey-lt:  #C4BDB4;
+  --line:     rgba(200, 169, 106, 0.25);
+
+  font-family: 'Jost', sans-serif;
+  line-height: 1.85;
+  font-weight: 300;
+
+  color-scheme: light;
+  color: var(--charcoal);
+  background-color: var(--cream);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── LIENS ─── */
+a {
+  font-family: 'Jost', sans-serif;
+  font-weight: 400;
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  color: var(--bordeaux);
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 1px;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+a:hover {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+}
+
+/* ─── BODY ─── */
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--cream);
+  color: var(--charcoal);
+  overflow-x: hidden;
+}
+
+/* Grain texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.35;
+}
+
+/* ─── TITRES ─── */
+h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.4rem, 7vw, 4.5rem);
+  font-weight: 300;
+  line-height: 1.05;
+  color: var(--charcoal);
+  letter-spacing: 0.01em;
+}
+
+h1 em {
+  font-style: italic;
+  color: var(--bordeaux);
+}
+
+h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  font-weight: 300;
+  line-height: 1.15;
+  color: var(--charcoal);
+}
+
+h3, h4, h5, h6 {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* ─── BOUTONS ─── */
+button {
+  border: 1px solid var(--bordeaux);
+  border-radius: 0;
+  padding: 0.65em 1.4em;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--bordeaux);
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+button::before {
+  content: '';
+  display: block;
+  width: 14px;
+  height: 1px;
+  background: currentColor;
+  flex-shrink: 0;
+  transition: width 0.3s ease;
+}
+
+button:hover {
+  background: var(--bordeaux);
+  color: var(--cream);
+  border-color: var(--bordeaux);
+}
+
+button:hover::before {
+  width: 22px;
+}
+
+button:focus,
+button:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* ─── VARIANTE PRIMAIRE (classe utilitaire) ─── */
+button.primary {
+  background: var(--bordeaux);
+  color: var(--cream);
+  border-color: var(--bordeaux);
+}
+
+button.primary:hover {
+  background: var(--charcoal);
+  border-color: var(--charcoal);
+  color: var(--gold-lt);
+}
+
+/* ─── DARK MODE ─── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: var(--cream);
+    background-color: var(--charcoal);
+  }
+
+  body {
+    background: var(--charcoal);
+    color: var(--cream);
+  }
+
+  h1, h2 {
+    color: var(--cream);
+  }
+
+  h1 em {
+    color: var(--gold-lt);
+  }
+
+  a {
+    color: var(--gold-lt);
+    border-bottom-color: rgba(200, 169, 106, 0.2);
+  }
+
+  a:hover {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+  }
+
+  button {
+    border-color: rgba(200, 169, 106, 0.45);
+    color: var(--gold-lt);
+  }
+
+  button:hover {
+    background: var(--gold);
+    color: var(--charcoal);
+    border-color: var(--gold);
+  }
+}

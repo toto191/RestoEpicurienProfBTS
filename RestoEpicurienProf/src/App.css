@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap');
+
+/* ─── VARIABLES ─── */
+:root {
+  --cream:    #F5F0E8;
+  --warm:     #FAF7F2;
+  --gold:     #C8A96A;
+  --gold-lt:  #DFC49A;
+  --bordeaux: #6B1F2A;
+  --bord-lt:  #8B3040;
+  --charcoal: #2A2520;
+  --grey:     #8A8078;
+  --grey-lt:  #C4BDB4;
+  --line:     rgba(200, 169, 106, 0.25);
+}
+
+
+
+/* ─── ROOT ─── */
+/* ─── ROOT ─── */
+#root {
+  width: 100%;      /* On s'assure qu'il prend tout l'écran */
+  max-width: 100%;   /* On enlève la limite de 1280px si elle y était */
+  margin: 0;
+  padding: 0;        /* IMPORTANT : mettez 0 ici pour que la navbar touche les bords */
+  text-align: center;
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  color: var(--charcoal);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Évite un scroll horizontal bizarre */
+  
+}
+
+
+header{
+    position: fixed;   /* Elle ne suit plus le flux normal, elle flotte */
+  top: 0;            /* Collée tout en haut */
+  left: 0;           /* Collée à gauche */
+  width: 100%;       /* Prend toute la largeur */
+  z-index: 9999;   
+}

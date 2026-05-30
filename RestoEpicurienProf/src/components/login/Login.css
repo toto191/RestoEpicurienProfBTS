@@ -1,0 +1,392 @@
+/* ─────────────────────────────────────────
+   Profile.css — Le Festin Épicurien
+   Profil utilisateur + Liste réservations
+───────────────────────────────────────── */
+
+
+h2 {
+  margin-top: 1rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  color: var(--bordeaux);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+#login-card {
+ background: var(--cream);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--line);
+  padding: 5rem;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  position: relative;
+  
+}
+
+#login-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--bordeaux), var(--gold));
+}
+
+#login-card form {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+#login-card label {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--grey);
+  margin-bottom: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+#login-card input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  padding: 0.6rem 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  color: var(--charcoal);
+  transition: border-color 0.3s ease;
+}
+
+#login-card input:focus {
+  outline: none;
+  border-bottom: 1px solid var(--gold);
+}
+
+#login-card button {
+  margin-top: 2.5rem;
+  background: var(--bordeaux);
+  color: var(--cream);
+  border: none;
+  padding: 0.8rem;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#login-card button:hover {
+  background: var(--bord-lt);
+  letter-spacing: 0.25em;
+}
+
+/* ══════════════════════════════════════════
+   .profile-view — vue profil élargie
+   (le login-card est plus étroit, ici on
+   agrandit pour accueillir les réservations)
+══════════════════════════════════════════ */
+#login-card.profile-view {
+  max-width: 560px;
+  padding: 3.5rem 3.5rem 3rem;
+}
+
+/* ── h3 général ── */
+#login-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--charcoal);
+  letter-spacing: 0.03em;
+  margin-bottom: 1rem;
+}
+
+/* ══════════════════════════════════════════
+   .user-info  →  bloc infos perso
+══════════════════════════════════════════ */
+.user-info {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 1.25rem 0;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.user-info p {
+  font-family: 'Jost', sans-serif;
+  font-size: 1.1rem;
+  color: var(--grey);
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  margin: 0;
+}
+
+.user-info p strong {
+  font-size: 1.2rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-dk);
+  flex-shrink: 0;
+}
+
+/* ══════════════════════════════════════════
+   #liste_resa  →  bloc réservations
+══════════════════════════════════════════ */
+#liste_resa {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* titre "liste de vos réservations" */
+#liste_resa > h3 {
+  font-size: 0.8rem;
+  font-family: 'Jost', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: var(--gold-dk);
+  margin-bottom: 1rem;
+
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+/* trait doré après le titre */
+#liste_resa > h3::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, rgba(200,169,106,0.35), transparent);
+}
+
+/* ── <ul> principale des réservations ── */
+#liste_resa > ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* ══════════════════════════════════════════
+   <li>  →  carte d'une réservation
+   (contient une <ul> + un <button>)
+══════════════════════════════════════════ */
+/* ─────────────────────────────────────────
+   StatusPill.css — Le Festin Épicurien
+   Badges de statut pour les réservations
+───────────────────────────────────────── */
+
+/* ── base commune ── */
+.status-pill {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.56rem;
+  letter-spacing: 0.22em;
+  border-radius: 5px;
+  text-transform: uppercase;
+  padding: 0.28rem 0.75rem;
+  display: inline-block;
+  white-space: nowrap;
+  border: 1px solid;
+  list-style: none;
+}
+
+/* ── confirmé ── */
+.status-pill.confirmé,
+.status-pill.confirme {
+  color: #000000;
+  border-color: rgba(11, 151, 79, 0.35);
+  background: rgba(43, 161, 100, 0.308);
+}
+
+/* ── en attente ── */
+.status-pill.en-attente {
+  color: var(--gold-lt, #DFC49A);
+  border-color: rgba(200, 169, 106, 0.35);
+  background: rgba(200, 169, 106, 0.329);
+}
+
+/* ── annulé ── */
+.status-pill.annulé,
+.status-pill.annule {
+  color: #8B3040;
+  border-color: rgba(139, 48, 64, 0.35);
+  background: rgba(107, 31, 42, 0.1);
+}
+
+/* ── refusé ── */
+.status-pill.refusé,
+.status-pill.refuse {
+  color: #c0392b;
+  border-color: rgba(192, 57, 43, 0.35);
+  background: rgba(192, 57, 43, 0.08);
+}
+
+/* ── terminé ── */
+.status-pill.terminé,
+.status-pill.termine {
+  color: var(--grey-lt, #C4BDB4);
+  border-color: rgba(24, 27, 29, 0.25);
+  background: rgba(119, 138, 156, 0.541);
+}
+
+#liste_resa > ul > li {
+  position: relative;
+  background: rgba(200, 169, 106, 0.04);
+  border: 1px solid rgba(200, 169, 106, 0.2);
+  padding: 1rem 3rem 1rem 1.25rem; /* droite large pour le bouton croix */
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+#liste_resa > ul > li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--bordeaux), var(--gold));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#liste_resa > ul > li:hover {
+  background: rgba(200, 169, 106, 0.08);
+  border-color: rgba(200, 169, 106, 0.35);
+}
+
+#liste_resa > ul > li:hover::before {
+  opacity: 1;
+}
+
+/* ── <ul> interne : date / heure / personnes ── */
+#liste_resa > ul > li > ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+/* chaque ligne de détail */
+#liste_resa > ul > li > ul > li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
+  font-family: 'Jost', sans-serif;
+  font-size: 1.2rem;
+  color: var(--charcoal);
+  opacity: 0.75;
+}
+
+/*
+  Affichage du label via l'attribut [label]
+  → <li label="Date :"> {uneResa.date_reservation}</li>
+*/
+#liste_resa > ul > li > ul > li::before {
+  content: attr(label);
+  font-size: 1.2rem;
+  font-weight: 400;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold-dk);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* ══════════════════════════════════════════
+   <button>  →  Croix de suppression
+   Positionné en absolu dans le <li>
+══════════════════════════════════════════ */
+#liste_resa > ul > li > button {
+  /* reset du style global button de #login-card */
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  letter-spacing: normal;
+  text-transform: none;
+
+  /* positionnement absolu en haut à droite */
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+
+  width: 24px;
+  height: 24px;
+  border: 1px solid rgba(107, 31, 42, 0.3);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--bordeaux);
+  opacity: 0.55;
+}
+
+/* Croix en CSS pur via ::before et ::after */
+#liste_resa > ul > li > button::before,
+#liste_resa > ul > li > button::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 1px;
+  background: currentColor;
+  border-radius: 1px;
+}
+#liste_resa > ul > li > button::before { transform: rotate(45deg); }
+#liste_resa > ul > li > button::after  { transform: rotate(-45deg); }
+
+/* hover sur le bouton croix */
+#liste_resa > ul > li > button:hover {
+  background: var(--bordeaux);
+  border-color: var(--bordeaux);
+  color: var(--cream);
+  opacity: 1;
+  transform: translateY(-50%) rotate(90deg);
+  letter-spacing: normal; /* annule l'effet global du hover button */
+}
+
+/* ══════════════════════════════════════════
+   .btn-logout  →  bouton déconnexion
+   (hérite du style global mais légèrement
+   différencié)
+══════════════════════════════════════════ */
+.btn-logout {
+  width: 100%;
+  margin-top: 1.5rem !important;
+  background: transparent !important;
+  color: var(--bordeaux) !important;
+  border: 1px solid rgba(107, 31, 42, 0.35) !important;
+  letter-spacing: 0.22em !important;
+  transition: all 0.3s ease !important;
+}
+.btn-logout:hover {
+  background: var(--bordeaux) !important;
+  color: var(--cream) !important;
+  border-color: var(--bordeaux) !important;
+  letter-spacing: 0.27em !important;
+}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+@media (max-width: 600px) {
+  #login-card.profile-view {
+    padding: 2rem 1.5rem;
+  }
+  #liste_resa > ul > li {
+    padding: 0.9rem 2.8rem 0.9rem 1rem;
+  }
+}

@@ -1,0 +1,364 @@
+/* ─────────────────────────────────────────
+   Reservations.css — Le Festin Épicurien
+   Tableau de bord des réservations
+   Palette: crème, bordeaux, or, charbon
+───────────────────────────────────────── */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500&display=swap');
+
+:root {
+  --cream:      #F5F0E8;
+  --warm:       #FAF7F2;
+  --gold:       #C8A96A;
+  --gold-lt:    #DFC49A;
+  --gold-dk:    #9A7A3E;
+  --bordeaux:   #6B1F2A;
+  --bord-lt:    #8B3040;
+  --charcoal:   #2A2520;
+  --grey:       #8A8078;
+  --grey-lt:    #C4BDB4;
+  --line:       rgba(200, 169, 106, 0.28);
+  --line-dark:  rgba(200, 169, 106, 0.15);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ══════════════════════════════════════════
+   PAGE
+══════════════════════════════════════════ */
+body {
+  min-height: 100vh;
+  background: var(--charcoal);
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+}
+
+/* ══════════════════════════════════════════
+   .resa-container
+══════════════════════════════════════════ */
+.resa-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3rem 2rem 5rem;
+  position: relative;
+}
+
+/* filigrane décoratif */
+.resa-container::before {
+  content: 'Réservations';
+  position: fixed;
+  top: 50%;
+  right: -4rem;
+  transform: translateY(-50%);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(5rem, 18vw, 11rem);
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(200, 169, 106, 0.04);
+  user-select: none;
+  pointer-events: none;
+  white-space: nowrap;
+  line-height: 1;
+  z-index: 0;
+}
+
+/* ══════════════════════════════════════════
+   .resa-title
+══════════════════════════════════════════ */
+.resa-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 300;
+  color: var(--cream);
+  letter-spacing: 0.03em;
+  margin-bottom: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* eyebrow au-dessus */
+.resa-title::before {
+  content: 'Tableau de bord';
+  font-family: 'Jost', sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* trait doré sous le titre */
+.resa-title::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, rgba(200, 169, 106, 0.3), transparent);
+}
+
+/* ══════════════════════════════════════════
+   .table-wrapper
+══════════════════════════════════════════ */
+.table-wrapper {
+  border: 1px solid rgba(200, 169, 106, 0.18);
+  overflow-x: auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ══════════════════════════════════════════
+   .resa-table
+══════════════════════════════════════════ */
+.resa-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+/* ── thead ── */
+.resa-table thead tr {
+  background: rgba(42, 37, 32, 0.95);
+  border-bottom: 1px solid rgba(200, 169, 106, 0.25);
+}
+
+.resa-table th {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 400;
+  padding: 1.1rem 1.25rem;
+  text-align: left;
+  white-space: nowrap;
+}
+
+/* ── tbody ── */
+.resa-table tbody tr {
+  background: rgba(250, 247, 242, 0.03);
+  border-bottom: 1px solid rgba(200, 169, 106, 0.08);
+  transition: background 0.25s;
+}
+.resa-table tbody tr:last-child { border-bottom: none; }
+.resa-table tbody tr:hover { background: rgba(250, 247, 242, 0.07); }
+
+.resa-table td {
+  padding: 1rem 1.25rem;
+  color: rgba(245, 240, 232, 0.6);
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+/* ID en or atténué */
+.resa-table td:first-child {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.9rem;
+  color: rgba(200, 169, 106, 0.45);
+  letter-spacing: 0.05em;
+}
+
+/* heure & date en Cormorant */
+.resa-table td:nth-child(2),
+.resa-table td:nth-child(3) {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem;
+  color: rgba(245, 240, 232, 0.75);
+}
+
+/* convives en or clair */
+.resa-table td:nth-child(4) {
+  color: var(--gold-lt);
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+}
+
+/* ══════════════════════════════════════════
+   Badges statut
+══════════════════════════════════════════ */
+.status-badge {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.56rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 0.28rem 0.75rem;
+  display: inline-block;
+  white-space: nowrap;
+  border: 1px solid;
+}
+
+.status-confirme {
+  color: #7dba9a;
+  border-color: rgba(125, 186, 154, 0.35);
+  background: rgba(125, 186, 154, 0.08);
+}
+
+.status-en-attente {
+  color: var(--gold-lt);
+  border-color: rgba(200, 169, 106, 0.35);
+  background: rgba(200, 169, 106, 0.07);
+}
+
+.status-annule {
+  color: rgb(240, 101, 101);
+  border-color: rgba(139, 48, 64, 0.35);
+  background: rgba(107, 31, 42, 0.1);
+}
+
+.status-terminer {
+  color: rgb(139, 170, 228);
+  border-color: rgba(48, 72, 139, 0.925);
+  background: rgba(54, 83, 126, 0.219);
+}
+
+
+/* ══════════════════════════════════════════
+   Select changement de statut
+══════════════════════════════════════════ */
+.status-select {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.5rem 2rem 0.5rem 0.85rem;
+  background: var(--charcoal);
+  border: 1px solid rgba(200, 169, 106, 0.25);
+  color: var(--gold-lt);
+  cursor: pointer;
+  outline: none;
+  border-radius: 0;
+  -webkit-appearance: none;
+  appearance: none;
+
+  /* flèche SVG dorée */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23C8A96A' opacity='.6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.65rem center;
+  transition: border-color 0.3s, color 0.3s, box-shadow 0.3s;
+}
+.status-select:hover {
+  border-color: rgba(200, 169, 106, 0.5);
+  color: var(--gold);
+}
+.status-select:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(200, 169, 106, 0.1);
+}
+.status-select option {
+  background: var(--charcoal);
+  color: var(--cream);
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-transform: none;
+}
+
+/* ══════════════════════════════════════════
+   Bouton supprimer
+══════════════════════════════════════════ */
+.btn-delete {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0.5rem 1.1rem;
+  background: transparent;
+  border: 1px solid rgba(107, 31, 42, 0.5);
+  color: rgb(240, 101, 101);
+  cursor: pointer;
+  transition: background 0.3s, border-color 0.3s, color 0.3s;
+}
+.btn-delete:hover {
+  background: var(--bordeaux);
+  border-color: var(--bordeaux);
+  color: var(--cream);
+}
+
+/* ══════════════════════════════════════════
+   États vide / chargement
+══════════════════════════════════════════ */
+.loading-text,
+.empty-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: rgba(245, 240, 232, 0.25);
+  text-align: center;
+  padding: 4rem 2rem;
+  border: 1px solid rgba(200, 169, 106, 0.12);
+}
+/* ─────────────────────────────────────────
+   TableButtons.css — Le Festin Épicurien
+   Boutons discrets : annuler filtre & tri
+───────────────────────────────────────── */
+
+/* ── bouton "Annuler filtre" — placé au-dessus du tableau ── */
+.table-wrapper > button {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 0.45rem 1.1rem;
+  
+  margin-bottom: 0.75rem;
+  background: transparent;
+  border: 1px solid rgba(200, 169, 106, 0.2);
+  color: rgba(200, 169, 106, 0.4);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: border-color 0.3s, color 0.3s;
+  outline: 2px solid rgba(189, 153, 85, 0.356);
+  outline-offset: 3px;
+}
+
+
+
+.table-wrapper > button:hover {
+  border-color: rgba(200, 169, 106, 0.5);
+  color: var(--gold, #C8A96A);
+}
+
+/* ── bouton tri dans le thead (Date ↑↓) ── */
+.resa-table thead th button {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold, #C8A96A);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  opacity: 0.7;
+  transition: opacity 0.25s, color 0.25s;
+}
+.resa-table thead th button:hover {
+  opacity: 1;
+  color: var(--gold-lt, #DFC49A);
+}
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .resa-container {
+    padding: 2rem 1rem 4rem;
+  }
+  .resa-table th,
+  .resa-table td {
+    padding: 0.8rem 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .resa-table th,
+  .resa-table td {
+    padding: 0.65rem 0.6rem;
+    font-size: 0.75rem;
+  }
+  .status-select {
+    padding: 0.4rem 1.6rem 0.4rem 0.6rem;
+  }
+}

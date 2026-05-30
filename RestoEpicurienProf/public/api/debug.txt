@@ -1,0 +1,11 @@
+Array
+(
+    [id_client] => 2
+    [date_reservation] => 2026-04-28
+    [heure_reservation] => 13:39
+    [nb_personnes] => 2
+    [tables] => Array
+        (
+        )
+
+)

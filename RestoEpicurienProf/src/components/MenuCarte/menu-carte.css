@@ -1,0 +1,234 @@
+/* ─────────────────────────────────────────
+   Palette (inchangée)
+───────────────────────────────────────── */
+:root {
+  --cream:      #F0EBE0;
+  --gold:       #C8A96A;
+  --gold-lt:    #DFC49A;
+  --gold-dk:    #9A7A3E;
+  --bordeaux:   #7A2335;
+  --charcoal:   #1E1B17;
+}
+
+/* Reset */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ─────────────────────────────────────────
+   Body — ambiance plus contemporaine
+───────────────────────────────────────── */
+body {
+  background: var(--charcoal);
+  font-family: 'Jost', sans-serif;
+  color: var(--cream);
+  overflow-x: hidden;
+}
+
+/* ─────────────────────────────────────────
+   Espace
+───────────────────────────────────────── */
+#espace {
+  height: 6rem;
+}
+
+/* ─────────────────────────────────────────
+   Container
+───────────────────────────────────────── */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 2rem 5rem;
+}
+
+/* ─────────────────────────────────────────
+   Titre principal — style gastronomie moderne
+───────────────────────────────────────── */
+.container h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  font-weight: 300;
+  text-align: center;
+  margin-bottom: 3.5rem;
+  letter-spacing: 0.04em;
+  color: var(--cream);
+  position: relative;
+}
+
+.container h1::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 2px;
+  background: var(--gold);
+  margin: 1rem auto 0;
+  opacity: 0.7;
+}
+
+/* ─────────────────────────────────────────
+   Liste principale
+───────────────────────────────────────── */
+.container > ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+/* ─────────────────────────────────────────
+   Link → carte
+───────────────────────────────────────── */
+#card-Menu{
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ─────────────────────────────────────────
+   Carte menu — nouveau design
+───────────────────────────────────────── */
+/* Carte menu */
+.card-Menu {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 18px;
+  padding: 2.2rem 2.4rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.25);
+  transition: 0.35s ease;
+  transform: translateY(8px);
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards;
+}
+
+.card-Menu:hover {
+  transform: translateY(-4px);
+  border-color: rgba(200, 169, 106, 0.35);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .card-Menu {
+    padding: 1.6rem 1.4rem;
+  }
+}
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* ─────────────────────────────────────────
+   Nom du menu — style épuré
+───────────────────────────────────────── */
+.container h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  font-weight: 300;
+  margin-bottom: 1.4rem;
+  color: var(--cream);
+  letter-spacing: 0.03em;
+}
+
+/* ─────────────────────────────────────────
+   Sous-liste (Entrée / Plat / Dessert)
+───────────────────────────────────────── */
+.container li ul {
+  list-style: none;
+  margin-bottom: 1.6rem;
+  padding-left: 0;
+  border-left: 2px solid rgba(200, 169, 106, 0.25);
+}
+
+.container li ul li {
+  margin-top: 5rem;
+  padding: 0.7rem 0 0.7rem 1rem;
+  font-size: 1rem;
+  color: rgba(240, 235, 224, 0.75);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* Badges minimalistes */
+.container li ul li::before {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  padding: 0.22rem 0.55rem;
+  border-radius: 4px;
+}
+
+/* Règle unique intelligente */
+.container li ul li::before {
+  content: var(--label-text);
+  background: var(--label-bg);
+  color: var(--label-color);
+  font-size: 1rem;
+  /* styles de mise en forme ici... */
+}
+
+/* On ne fait qu'assigner des variables */
+.container li ul li:nth-child(1) {
+  --label-text: "Entrée";
+  --label-bg: rgba(200, 169, 106, 0.15);
+  --label-color: var(--gold);
+}
+
+.container li ul li:nth-child(2) {
+  --label-text: "Plat";
+  --label-bg: rgba(122, 35, 53, 0.18);
+  --label-color: rgb(186, 50, 50);
+}
+
+.container li ul li:nth-child(3){
+  --label-text: "Dessert";
+  --label-bg: rgba(90, 140, 160, 0.18);
+  --label-color: #90B8C8;
+
+}
+
+
+
+/* ─────────────────────────────────────────
+   Prix — style premium
+───────────────────────────────────────── */
+.container p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.7rem;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.container p strong {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: rgba(200, 169, 106, 0.45);
+}
+
+/* ─────────────────────────────────────────
+   Responsive
+───────────────────────────────────────── */
+@media (max-width: 600px) {
+  #card-Menu > li {
+    padding: 1.6rem 1.4rem;
+  }
+
+  .container h3 {
+    font-size: 1.5rem;
+  }
+
+  .container li ul li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
