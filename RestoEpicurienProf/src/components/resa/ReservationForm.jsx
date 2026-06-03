@@ -10,17 +10,17 @@ import {getCrenaux} from "../../api/crenaux.js"
 
 function ReservationForm() {
 
-    const { user,setUser,verifySession} = useContext(AuthContext); // Accès direct !
+    const { user,setUser,verifySession,loadingAuth} = useContext(AuthContext); // Accès direct !
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     
      useEffect(()=>{
-        verifySession();
+        verifySession(); //nous indique si on est déco ou non 
     },[]);
 
     
 
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState({ //data envoyé pour faire une résa 
         id_utilisateur: user?.numero || '',
         date_reservation: '',
         heure_reservation: '',
@@ -99,7 +99,7 @@ function ReservationForm() {
         if (!dateStr || !heureStr || listeCreneaux.length === 0) return;
 
         // 1. Trouver le jour de la semaine (0-6)
-        const dateObj = new Date(dateStr + "T00:00:00");
+        const dateObj = new Date(dateStr + "T00:00:00"); // T00... permet de mettre au format UTC universel
         const jourChoisi = dateObj.getDay();
 
         // 2. Chercher le créneau dans le tableau
@@ -112,7 +112,7 @@ function ReservationForm() {
         });
 
         if (creneauTrouve) {
-        setFormData(prev => ({ ...prev, id_creneau: creneauTrouve.id_creneau }));
+        setFormData(prev => ({ ...prev, id_creneau: creneauTrouve.id_creneau })); //prev =  mon object résa 
         console.log("Créneau trouvé automatiquement : ", creneauTrouve.id_creneau);
         setMessage("Le restaurant est bien ouvert à cette horraire  ✅ ")
         } else {
@@ -133,7 +133,7 @@ function ReservationForm() {
 
     useEffect(() => {
         // IMPORTANT : On attend que le context ait fini de chercher l'utilisateur.
-        // Si user est indéfini ou en cours de chargement dans ton Context, ajuste cette ligne.
+        // Si user est indéfini ou en cours de chargement dans Context, ajuster cette ligne.
         if (loadingAuth) return;
         if (user === null) {
             // L'utilisateur n'est vraiment pas connecté
@@ -186,7 +186,7 @@ function ReservationForm() {
                         type="time"
                         value={formData.heure_reservation}
                        onChange={(e) => {
-                            const nouvelleHeure = e.target.value;
+                            const nouvelleHeure = e.target.value; // récupère l'heure selectionné 
                             setFormData(prev => ({ ...prev, heure_reservation: nouvelleHeure }));
                             // On passe directement 'nouvelleHeure'
                             trouverCreneauAuto(formData.date_reservation, nouvelleHeure);

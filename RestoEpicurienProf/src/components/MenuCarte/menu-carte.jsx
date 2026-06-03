@@ -20,7 +20,7 @@ export default function MenuCarte() {
     est_a_la_carte: data.est_a_la_carte || 0,
 });
 
-// Dans ton composant :
+// Dans le composant :
 const [menus, setMenus] = useState([unMenu()]);
 const [loading, setLoading] = useState(true);
 const navigate = useNavigate();

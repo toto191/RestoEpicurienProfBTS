@@ -1,4 +1,7 @@
+//fichier plus utilisée car pas de gestion de table finalement 
+
 import React, { useState } from 'react';
+
 
 
 function GestionTables(){

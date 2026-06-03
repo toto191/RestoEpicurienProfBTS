@@ -7,10 +7,10 @@ import { createMenu } from "../../api/Menu.js";
 
 
 export default function CreateMenu() {
-     const { user, setUser,verifySession,loadingAuth  } = useContext(AuthContext);
+     const { user, setUser,verifySession,loadingAuth  } = useContext(AuthContext); //extraction de 4 élément provenant de authcontext
      const navigate = useNavigate();
 
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState({ //useState hook qui permet de gérer localment une mémoire pour mon composant 
             nom: "",
             entree: "",
             plat: "",
@@ -22,20 +22,19 @@ export default function CreateMenu() {
 
 
     useEffect(()=>{
-        verifySession();
+        verifySession(); //permet de verifier en arrière plan si j'ai déjà un session, donc quand je recharge une page permet de garder les éléments du local storage
     },[]);
 
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        // Ici tu peux faire un appel API pour envoyer formData au backend
-
+    const handleSubmit = async (e) => { //envois des donnée via axios en asynchrome afin que ça ne bloque pas le reste du site en attendant les résultats
+        e.preventDefault(); //Bloquer le comportement par défaut, ici le chargement de la page 
+    
          try {
             console.log("Envoi des données...", formData);
-            const result = await createMenu(formData);
+            const result = await createMenu(formData); //met en pause le code, le tps de récupérer les données de l'api. Que dans un async 
             console.log("Menu créer avec succès :", result);
             alert("Menu créé !");
-            setFormData({
+            setFormData({ //on remet à vide le formulaire 
             nom: "",
             entree: "",
             plat: "",
@@ -56,7 +55,7 @@ export default function CreateMenu() {
          navigate("/", { replace: true });
 
       }
-    },[user,loadingAuth]);
+    },[user,loadingAuth]); // recharge la page a chaque fois que user ou loadingAuth change d'état 
 
 
 
@@ -82,7 +81,7 @@ export default function CreateMenu() {
                 type="text" 
                 name="nom" 
                 value={formData.nom} 
-                onChange={(e) => setFormData({ ...formData, nom: e.target.value })} 
+                onChange={(e) => setFormData({ ...formData, nom: e.target.value })} // a chaque fois qu'un élément change e.target.value récupère la valeur du input 
                 />
           </div>
  

@@ -50,7 +50,7 @@ export default function GestionResa() {
                         }catch(error){
                             console.error("Echec de la récupération des resa", error);
                         }finally {
-                        setLoading(false); // On arrête le mode "chargement"
+                        setLoading(false); // On arrête le mode "chargement" dès qu'on  recois une réponse 
                     }
                     };
                         
@@ -86,10 +86,10 @@ export default function GestionResa() {
                 if (confirmation) {
                  
                     try {                        
-                        await deleteReservation(idSelect);
+                        await deleteReservation(idSelect); //appel api via fonction js
                         
                         setResa((prevResa) => {
-                            const filtered = prevResa.filter(item => item.id_reservation !== idSelect);
+                            const filtered = prevResa.filter(item => item.id_reservation !== idSelect); //pour afficher les résa une fois qu'on en à supprimer une, on affiche les résa de base en enlevant celle qu'on vient de supprimer
                             return filtered;
                         });
 
@@ -225,7 +225,7 @@ export default function GestionResa() {
                                                 className="status-select"
                                                 defaultValue={r.id_statut}
                                                 onChange={(e) => handleStatusChange(r.id_reservation,e.target.value)}>
-                                            {Array.isArray(statusOptions) && statusOptions.map((option) => (        
+                                            {Array.isArray(statusOptions) && statusOptions.map((option) => (  // test si c'est un tableau et map => passe un table de donnée , object en tableau d'élément html /jsx       
                                                 <option key={option.id_statut} value={option.id_statut}>
                                                     {option.libelle}
                                                 </option>

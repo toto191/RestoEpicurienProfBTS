@@ -4,7 +4,7 @@ import Header from "../header/header";
 import { Link } from "react-router-dom";
 
 
-/* ─── REVEAL HOOK ────────────────────────── */
+/* ─── REVEAL  ────────────────────────── */
 function useReveal() {
   const ref = useRef(null);
   useEffect(() => {

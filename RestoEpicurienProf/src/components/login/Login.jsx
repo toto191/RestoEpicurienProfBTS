@@ -129,8 +129,7 @@ export default function Login() {
            
             console.log(localStorage.getItem("userToken"))
             
-            // Ici, tu pourrais rediriger vers la page d'accueil avec :
-            // window.location.href = "/accueil"; 
+     
         }
         } catch (error) {
             //pour erreur 401/404 /500
@@ -157,7 +156,7 @@ export default function Login() {
         if (!user?.numero || !user?.role) {
         return;
     }
-                const fetchMenus =async () =>{
+                const fetchMenus =async () =>{ //récupérer les reservations 
                         try{
                             const data = await getReservationsByID(user?.numero,user?.role);
                             console.log("les données envoyées : "+ user?.numero,user?.role)
@@ -198,7 +197,7 @@ export default function Login() {
                         await deleteReservation(idSelect);
                         
                         setResa((prevResa) => {
-                            const filtered = prevResa.filter(item => item.id_reservation !== idSelect);
+                            const filtered = prevResa.filter(item => item.id_reservation !== idSelect); // affiche les réservation en enlevant la dernière qu'on vien de supprimer
                             return filtered;
                         });
 

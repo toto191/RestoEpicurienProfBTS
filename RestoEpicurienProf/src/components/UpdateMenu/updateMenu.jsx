@@ -40,7 +40,7 @@ export default function UpdateMenu() {
         
         const handleSubmit = async (e) => {
             e.preventDefault();
-            // Ici tu peux faire un appel API pour envoyer formData au backend
+            // Ici on peut faire un appel API pour envoyer formData au backend
     
              try {
                 console.log("Envoi des données...", formData);
@@ -148,7 +148,7 @@ export default function UpdateMenu() {
                             type="number" 
                             name="prix" 
                             value={formData.prix} 
-                            onChange={(e) => setFormData({ ...formData, prix: e.target.value })} 
+                            onChange={(e) => setFormData({ ...formData, prix: e.target.value })} //e.target.value met la valeur pruix a jour 
                             />  
                         </div>
             
@@ -159,7 +159,7 @@ export default function UpdateMenu() {
                             type="checkbox" 
                             name="est_a_la_carte" 
                             checked={Boolean(formData.est_a_la_carte)}
-                            onChange={(e) => setFormData({ ...formData, est_a_la_carte: e.target.checked ? 1 : 0})} 
+                            onChange={(e) => setFormData({ ...formData, est_a_la_carte: e.target.checked ? 1 : 0})} //e.target.value met la valeur 1 ou 0 à jour pour mettre a la carte ou non 
                             />
                         </div>
                         <span className="menu-form-carte-label">Afficher dans la carte du restaurant</span>
