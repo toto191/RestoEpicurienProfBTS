@@ -102,7 +102,7 @@ useEffect(() => {
             {menus.map((menu) => ( // on donne comme nom menu a chaque partie disocié grace à map
                
                 <li >
-                    <div id="card-Menu">
+                    <div className="card-Menu">
                     <h3>{menu.nom}</h3>
                     <ul>
                        <li>{menu.entree}</li>

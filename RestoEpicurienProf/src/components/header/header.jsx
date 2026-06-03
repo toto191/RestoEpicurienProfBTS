@@ -3,6 +3,7 @@ import { useState, useContext } from "react";
 import "./header.css";
 import { AuthContext } from "../../authContext.jsx";
 
+
 export default function NavBar() {
   const { user } = useContext(AuthContext);
   const [menuOpen, setMenuOpen] = useState(false);

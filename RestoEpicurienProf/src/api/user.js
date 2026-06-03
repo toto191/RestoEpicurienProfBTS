@@ -1,7 +1,7 @@
 import api from "./config";
-const token = localStorage.getItem("token");
 
 export const createUser = async (userData) => {
+  const token = localStorage.getItem("userToken");
   try {
     const response = await api.post("?resource=utilisateurs", userData, {
       headers: {
@@ -18,6 +18,7 @@ export const createUser = async (userData) => {
 };
 
 export const LoginUser = async (userData) => {
+  const token = localStorage.getItem("userToken");
   try {
     const response = await api.post("?resource=login", userData, {
       headers: {
@@ -31,4 +32,14 @@ export const LoginUser = async (userData) => {
     console.error("Erreur POST login:", error);
     throw error;
   }
+};
+
+export const PasserLogin = async (mdp) => {
+  const token = localStorage.getItem("userToken");
+  const response = await api.post(
+    "?resource=PasserAdmin",
+    { mdpadmin: mdp },
+    { headers: { Authorization: `Bearer ${token}` } },
+  );
+  return response.data;
 };

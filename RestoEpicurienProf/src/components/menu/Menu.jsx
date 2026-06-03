@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import "./Menu.css";
 import Header from "../header/header";
+import { Link } from "react-router-dom";
 
 
 /* ─── REVEAL HOOK ────────────────────────── */
@@ -67,8 +68,8 @@ export default function Menu() {
         <p className="hero__sub">Cuisine française moderne · Table gastronomique</p>
 
         <div className="hero__cta">
-          <button className="hero__btn hero__btn--primary">Réserver une table</button>
-          <button className="hero__btn hero__btn--outline">Découvrir les menus</button>
+          <Link to="/reservation"><button className="hero__btn hero__btn--primary">Réserver une table</button></Link>
+          <Link to="/menu-carte"><button className="hero__btn hero__btn--outline">Découvrir les menus</button></Link>
         </div>
 
         <div className="hero__scroll">Descendre</div>

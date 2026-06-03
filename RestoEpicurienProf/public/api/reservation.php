@@ -23,7 +23,7 @@ function handleReservations($method, $pdo, $input)
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([$id_user]);
             } elseif ($id_user && $role_connecte == "admin") {
-                // Version globale (votre code actuel)
+                // Version globale , pas de requête préparé car pas de filtre sur une donnée provenant de l'utilisateur
                 $sql = "SELECT r.*, u.nom, u.prenom, s.libelle as statut_nom 
                             FROM Reservations r
                             LEFT JOIN Utilisateurs u ON r.id_utilisateur = u.id_utilisateur
@@ -49,7 +49,7 @@ function handleReservations($method, $pdo, $input)
 
         case 'POST':
             try {
-                $pdo->beginTransaction();
+                $pdo->beginTransaction(); //transaction sql ici finalement ne sert pas à grand chose 
                 //file_put_contents('debug.txt', print_r($input, true));
 
                 // --- ÉTAPE A : Insérer la réservation ---
@@ -67,9 +67,9 @@ function handleReservations($method, $pdo, $input)
 
                 // --- ÉTAPE B : Récupérer l'ID généré ---
                 $id_reservation = $pdo->lastInsertId();
-
+                /*
                 // --- ÉTAPE C : Attribuer les tables ---
-                if (!empty($input['tables']) && is_array($input['tables'])) {
+               if (!empty($input['tables']) && is_array($input['tables'])) {
                     $sqlTable = "INSERT INTO Reservation_Tables (id_reservation, id_table) VALUES (?, ?)";
                     $stmtTable = $pdo->prepare($sqlTable);
 
@@ -92,7 +92,7 @@ function handleReservations($method, $pdo, $input)
                             $id_reservation
                         ]);
                     }
-                }
+                }*/
 
                 $pdo->commit();
                 header('Content-Type: application/json');
@@ -106,7 +106,7 @@ function handleReservations($method, $pdo, $input)
             break;
 
         case 'PUT':
-            // Mise à jour : on change l'ID en id_reservation pour coller à ta PK
+
             $sql = "UPDATE Reservations 
                     SET id_utilisateur=?, date_reservation=?, heure_reservation=?, nb_personnes=?, id_statut=? 
                     WHERE id_reservation=?";

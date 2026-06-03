@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "axios"; //ici c'est le code qui fait le lien vers l'api
 
 const api = axios.create({
   // L'URL complète vers ton dossier contenant index.php

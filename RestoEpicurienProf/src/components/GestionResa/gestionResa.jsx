@@ -3,12 +3,13 @@ import { useState, useEffect, useRef, useContext, use } from "react";
 import { AuthContext } from "../../authContext.jsx";
 import { getStatus } from '../../api/status.js';
 import {updateReservation} from '../../api/reservation.js';
+import {Login} from "../login/Login.jsx";
 import { Link,useNavigate } from 'react-router-dom';
 import './gestionResa.css';
 
 
 export default function GestionResa() {
-    const { user } = useContext(AuthContext);
+    const { user,verifySession,loadingAuth  } = useContext(AuthContext);
     const [resa, setResa] = useState([]);
     const [originalResa, setOriginalResa] = useState([]); // La sauvegarde (ne change jamais)
     const [isSorted, setIsSorted] = useState(false); // Pour savoir si on croissan ou descroissan 
@@ -18,9 +19,22 @@ export default function GestionResa() {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
+  
+
+    useEffect(()=>{
+        verifySession(); // déconnect si plus de session avec message pour prévenir
+    },[]);
 
 
      useEffect(() => {
+                if (loadingAuth) return;
+                  if (!user) {
+                    navigate("/", { replace: true });
+                    return;
+                }
+                if(user?.role !== "admin"){
+                navigate("/", { replace: true });
+                }
                 const fetchMenus =async () =>{
                         try{
                             const data = await getReservationsByID(user?.numero,"admin");
@@ -39,9 +53,11 @@ export default function GestionResa() {
                         setLoading(false); // On arrête le mode "chargement"
                     }
                     };
+                        
+            fetchMenus(); // On lance l'exécution ! 
+        },[user,loadingAuth]); // recharge la page si user ou loadingAuth change  
+
         
-                fetchMenus(); // On lance l'exécution !
-        },[user]); 
 
 
 
@@ -59,7 +75,30 @@ export default function GestionResa() {
 
         useEffect(() => {
             afficherStatusOptions();            
-        }, []);  
+        }, []); 
+        
+        
+        const deleteResa = async (idSelect) => {
+             
+
+                const confirmation = window.confirm("Êtes-vous sûr de vouloir annuler votre réservation ?");
+
+                if (confirmation) {
+                 
+                    try {                        
+                        await deleteReservation(idSelect);
+                        
+                        setResa((prevResa) => {
+                            const filtered = prevResa.filter(item => item.id_reservation !== idSelect);
+                            return filtered;
+                        });
+
+                    } catch (error) {
+                        console.error("Erreur détectée:", error);
+                        alert(error.message);
+                    }
+                }
+            };
         
 
 
@@ -135,21 +174,12 @@ export default function GestionResa() {
         }
 
 
-    useEffect(()=>{
-            if(user.role !== "admin"){
-                navigate("/", { replace: true });
-
-            }
-    })
-
-
-
     
 
      return (
         /* REMPLACE LES CLASSES TAILWIND PAR CELLES DU CSS PERSO */
         <>
-        {user.role === "admin" && (
+        {user?.role === "admin" && (
         <div className="resa-container"> 
             <h1 className="resa-title">Gestion des réservations</h1>
 
@@ -164,7 +194,7 @@ export default function GestionResa() {
                         <table className="resa-table">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>Couverts au nom </th>
                                     <th>Heure</th>
                                     <th><button onClick={filtreDate}>Date ↑↓ </button> {/* ne pas mettre filtreDate() avec () sinon déclenche en boucle la fonction  */}</th>
                                     <th><button onClick={filtreConvive}>Convives ↑↓ </button></th>
@@ -176,7 +206,7 @@ export default function GestionResa() {
                             <tbody>
                                 {resa.map((r) => (
                                     <tr key={r.id_reservation}>
-                                        <td>{r.id_reservation}</td>
+                                        <td>{r.prenom} {r.nom}</td>
                                         <td>{r.heure_reservation || r.heure}</td>
                                         <td>{r.date_reservation || r.date}</td>
                                         <td>{r.nb_personnes} pers.</td>

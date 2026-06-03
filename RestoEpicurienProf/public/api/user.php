@@ -20,7 +20,7 @@ function handleUtilisateurs($method, $pdo, $input)
                 echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
             } catch (PDOException $e) {
                 // Si la base de données renvoie une erreur (ex: email déjà existant)
-                http_response_code(500);
+                http_response_code(500); //permet de dire au client que le serveur à échoué 
                 echo json_encode(["status" => "error", "message" => $e->getMessage()]);
                 exit;
             }
@@ -32,7 +32,7 @@ function handleUtilisateurs($method, $pdo, $input)
                 $email = $input['email'] ?? null;
                 $nom = $input['nom'] ?? null;
                 $prenom = $input['prenom'] ?? null;
-                $password = $input['password'] ?? null; // On utilise 'password' comme dans ton console.log
+                $password = $input['password'] ?? null; // On utilise 'password' comme dans console.log
                 $id_role = 2; // ID par défaut pour "Client" (à vérifier dans ta table Roles)
 
                 if (!$email || !$password) {
@@ -44,7 +44,6 @@ function handleUtilisateurs($method, $pdo, $input)
                 $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
                 // 3. Préparation de la requête 
-                // ATTENTION : Vérifie que tes colonnes s'appellent bien comme ça en BDD
                 $sql = "INSERT INTO Utilisateurs (email, mot_de_passe, nom, prenom, id_role) VALUES (?, ?, ?, ?, ?)";
                 $stmt = $pdo->prepare($sql);
 
@@ -123,7 +122,7 @@ function handleLogin($method, $pdo, $input)
             "exp" => $expireAt
         ];
 
-        // Exemple de ce qu'il doit y avoir dans ton login.php
+        // Exemple de ce qu'il doit y avoir dans le login.php
         $_SESSION['user_id'] = $user['id_utilisateur']; // L'ID numérique
         $_SESSION['role'] = $user['nom_role']; // 'admin' ou 'user'
 
@@ -146,4 +145,73 @@ function handleLogin($method, $pdo, $input)
         http_response_code(401);
         echo json_encode(["status" => "error", "message" => "Identifiants invalides"]);
     }
+}
+
+
+function getAuthUserId(): int
+{
+    $authHeader = getallheaders()['Authorization'] ?? null;
+    $token = $authHeader ? substr($authHeader, 7) : null; //Le 7 correspond au nombre de caractères de la chaîne "Bearer " (avec l'espace). car sinon on a Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI... en token
+
+    try {
+        return \Firebase\JWT\JWT::decode($token, new \Firebase\JWT\Key(JWT_SECRET, 'HS256'))->user_id;
+        /*
+        La méthode decode() de la librairie Firebase JWT :
+
+        décode le JWT
+        vérifie la signature
+        vérifie l'expiration (exp)
+        renvoie les données du payload
+        */
+    } catch (Exception) {
+        http_response_code(401);
+        echo json_encode(["status" => "error", "message" => "Token invalide ou manquant"]);
+        exit;
+    }
+}
+
+
+
+function PasserAdmin($method, $pdo, $input)
+{
+    if ($method !== 'POST') {
+        http_response_code(405);
+        echo json_encode(["status" => "error", "message" => "Méthode non autorisée"]);
+        exit;
+    }
+    // 1. Récupérer tous les entêtes de la requête HTTP
+    // 1. On vérifie si l'utilisateur a une session active et un ID stocké
+    // Grâce au session_start() au tout début de ton fichier, $_SESSION est accessible
+    $idUtilisateurConnecte = getAuthUserId();
+
+    if (!$idUtilisateurConnecte) {
+        http_response_code(401);
+        echo json_encode(["status" => "error", "message" => "Non connecté (Session introuvable ou expirée)"]);
+        exit;
+    }
+
+    $mdpAdmin = $input['mdpadmin'] ?? null;
+
+    if ($mdpAdmin !== MdpPasseAdmin) {
+        http_response_code(403);
+        echo json_encode(["status" => "error", "message" => "Mot de passe Admin incorrect"]);
+        exit;
+    }
+    // 3. Requête préparée SQL pour mettre à jour le rôle de l'utilisateur
+    try {
+        // On modifie la table Utilisateurs pour changer son id_role à 1 (Admin)
+        $sql = "UPDATE Utilisateurs SET id_role = 1 WHERE id_utilisateur = ?";
+        $stmt = $pdo->prepare($sql); //protège des inj sql 
+        $stmt->execute([$idUtilisateurConnecte]); // Le paramètre est lié ici en toute sécurité
+
+        echo json_encode([
+            "status" => "success",
+            "message" => "Félicitations, vous êtes désormais Admin ! Veuillez vous reconnecter pour mettre à jour votre token."
+        ]);
+
+    } catch (PDOException $e) {
+        http_response_code(500);
+        echo json_encode(["status" => "error", "message" => "Erreur BDD : " . $e->getMessage()]);
+    }
+
 }

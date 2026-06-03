@@ -10,11 +10,14 @@ import {getCrenaux} from "../../api/crenaux.js"
 
 function ReservationForm() {
 
-    const { user,setUser} = useContext(AuthContext); // Accès direct !
+    const { user,setUser,verifySession} = useContext(AuthContext); // Accès direct !
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     
-    
+     useEffect(()=>{
+        verifySession();
+    },[]);
+
     
 
     const [formData, setFormData] = useState({
@@ -131,21 +134,22 @@ function ReservationForm() {
     useEffect(() => {
         // IMPORTANT : On attend que le context ait fini de chercher l'utilisateur.
         // Si user est indéfini ou en cours de chargement dans ton Context, ajuste cette ligne.
+        if (loadingAuth) return;
         if (user === null) {
             // L'utilisateur n'est vraiment pas connecté
             alert("Il faut être connecté pour pouvoir réserver !");
            navigate("/", { replace: true });
-        } else if ( user.role !== "client") {
+        } else if ( user.role !== "client" && user.role !== "admin") {
             // L'utilisateur est connecté mais n'est pas un client (ex: admin, employe...)
-            alert("Accès refusé : Seuls les clients peuvent réserver.");
+            alert("Accès refusé : Seuls les clients peuvent réserver !");
             navigate("/", { replace: true });
         }
-    }, [user]);
+    }, [user, loadingAuth]);
 
 
     return (
       <>
-        { user?.role ===  "client" &&(
+        { (user?.role ===  "client" || user?.role ===  "admin") &&(
            
             <div className="reservation-form">
 

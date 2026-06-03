@@ -7,7 +7,7 @@ import { createMenu } from "../../api/Menu.js";
 
 
 export default function CreateMenu() {
-     const { user, setUser } = useContext(AuthContext);
+     const { user, setUser,verifySession,loadingAuth  } = useContext(AuthContext);
      const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
@@ -19,6 +19,12 @@ export default function CreateMenu() {
             est_a_la_carte: false,
            
         });
+
+
+    useEffect(()=>{
+        verifySession();
+    },[]);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -45,12 +51,12 @@ export default function CreateMenu() {
     }
 
     useEffect(()=>{
-      
+       if (loadingAuth) return;
       if(user?.role !== "admin"){
          navigate("/", { replace: true });
 
       }
-    })
+    },[user,loadingAuth]);
 
 
 

@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef, useContext } from "react";
 import "./Login.css"
-import { createUser, LoginUser } from "../../api/user.js";
+import { createUser, LoginUser,PasserLogin } from "../../api/user.js";
 import { getReservationsByID,deleteReservation } from '../../api/reservation.js';
 import { AuthContext } from "../../authContext.jsx";
+
 
 
 export default function Login() {
@@ -80,9 +81,8 @@ export default function Login() {
         }
  
         try {
-            console.log("Envoi des données...", formData);
+           
             const result = await createUser(formData);
-            console.log("Utilisateur créé avec succès :", result);
             alert("Compte créé !");
             setIsVisible(false); // Repasser à l'écran de connexion
         } catch (error) {
@@ -110,7 +110,6 @@ export default function Login() {
         // Logique de connexion
 
          try {
-            console.log("Envoi des données...", dataConnection);
             const result = await LoginUser(dataConnection);
             if (result.status === "success" && result.token) {
             // 1. On stocke le token (le "badge d'accès")
@@ -163,10 +162,7 @@ export default function Login() {
                             const data = await getReservationsByID(user?.numero,user?.role);
                             console.log("les données envoyées : "+ user?.numero,user?.role)
                             if(Array.isArray(data)){
-                                console.log("les reservations : ", data);
                                 setResa(data);
-                            }else{
-                                console.error("Les données reçues ne sont pas un tableau", data);
                             }
                         
                         }catch(error){
@@ -236,6 +232,13 @@ export default function Login() {
             setOuvert(!ouvert);
         }
 
+
+
+        //------------------passer admin ------------------------
+        const actionPasserAdmin = (mdp)=>{
+            PasserLogin(mdp);
+            handleLogout();
+        }
     
 
 
@@ -271,7 +274,7 @@ export default function Login() {
                                 <li label ="Nombre de personnes :">{uneResa.nb_personnes}</li>
                                 <li 
                                     label="Status :" 
-                                    className={`status-pill ${uneResa.statut_nom?.toLowerCase().replace(/\s+/g, '-')}`}
+                                    className={`status-pill ${uneResa.statut_nom?.toLowerCase().replace(/\s+/g, '-')}`} //regex
                                 >
                                     {uneResa.statut_nom}
                                 </li>
@@ -291,24 +294,24 @@ export default function Login() {
                     Passer admin 
                 </button>
                 {ouvert &&(
-                    <form onSubmit={handleSubmitConnexion}>
                     <div className="panneau-admin">
                     <label>Mot de passe admin : </label>
                     <input 
-                        name="password" // Ajouté
+                        name="password" 
                         type="password"
-                        value={dataConnection.password} // Ajouté
-                        onChange={handleChange} // Ajouté
+                        value={dataConnection.password} 
+                        onChange={handleChange} 
                         required
                         placeholder="••••••••"
                     />
-                    </div>
-                    </form>
-                )}
-                 <button onClick={handleLogout} className="btn-logout">
-                    Supression du compte 
                     
-                </button>
+                    <button onClick={() => actionPasserAdmin(dataConnection.password)}>
+                        Valider le rang Admin
+                    </button>
+                    </div>
+                    
+                )}
+
             </div>
             </>
         );

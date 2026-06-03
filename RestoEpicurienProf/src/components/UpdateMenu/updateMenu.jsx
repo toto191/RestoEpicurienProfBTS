@@ -9,18 +9,21 @@ import "./updateMenu.css";
 
 export default function UpdateMenu() {
 
-  
+    
     const location = useLocation();
     const menu = location.state?.menuData; // On récupère l'objet passé
     const navigate = useNavigate();
-    const { user,setUser} = useContext(AuthContext); // Accès direct !
+    const { user,setUser,verifySession,loadingAuth} = useContext(AuthContext); // Accès direct !
+
+    useEffect(()=>{
+        verifySession(); // pour verifier si on est tjr en session si on ne l'ai pas on envois un un message d'erreur 
+    },[]);
+    
 
         useEffect(() => {
         if (menu) {
             console.log("Données reçues pour mise à jour (une seule fois) :", menu);
         }
-
-
     }, []); // Le tableau vide [] permet de ne pas recharer la page à chaque fois qu'un élément changes 
 
         const [formData, setFormData] = useState({
@@ -32,6 +35,8 @@ export default function UpdateMenu() {
         est_a_la_carte: menu?.est_a_la_carte || 0,
         id: menu?.id || null,
     }); 
+
+
         
         const handleSubmit = async (e) => {
             e.preventDefault();
@@ -86,7 +91,8 @@ export default function UpdateMenu() {
 
 
     useEffect(()=>{
-        if(user.role !== "admin"){
+        if (loadingAuth) return;
+        if(user?.role !== "admin"){
             navigate("/menu-carte", { replace: true });
 
         }
@@ -95,7 +101,7 @@ export default function UpdateMenu() {
     
     return (
         <>
-        {user.role === "admin" &&(
+        {user?.role === "admin" &&(
         <div id="carteMenu">
     
             <div id="desc">
